@@ -1,72 +1,245 @@
-# 1. 导入工具包
-from flask import Flask, request, jsonify
+"""
+心理健康应用后端 - 完整版
+功能：提供用户认证（手机号）、AI对话、情绪调节、冥想、心理测评的数据接口
+数据库：SQLite
+"""
+
+# ---------- 1. 导入所有必需的库 ----------
+from flask import Flask, request, jsonify, session
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from dotenv import load_dotenv
-import time  # 用于模拟延迟，让响应更真实
+from datetime import datetime
 
-# 2. 加载环境变量（从本地 .env 文件读取密钥）
+# ---------- 2. 加载环境变量并初始化应用 ----------
 load_dotenv()
-
-# 3. 创建Flask应用
 app = Flask(__name__)
 
+# 配置数据库（SQLite，文件名为 mental_health.db）
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mental_health.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# 4. 健康检查接口（保持不变）
-@app.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({"status": "ok", "message": "后端服务器运行正常！"})
+app.secret_key = os.environ['SECRET_KEY']  # 这将强制要求SECRET_KEY必须存在
+
+# 初始化数据库对象
+db = SQLAlchemy(app)
+
+# ---------- 3. 定义所有数据表模型（Python类） ----------
+
+class User(db.Model):
+    """用户表，用于手机号登录注册"""
+    id = db.Column(db.Integer, primary_key=True)
+    phone = db.Column(db.String(11), unique=True, nullable=False)  # 手机号，唯一
+    password_hash = db.Column(db.String(200), nullable=False)      # 加密后的密码
+    nickname = db.Column(db.String(50))                            # 昵称（可选）
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)   # 注册时间
+    # 关联关系（便于查询用户的所有记录）
+    conversations = db.relationship('Conversation', backref='user', lazy=True)
+    breathing_sessions = db.relationship('BreathingSession', backref='user', lazy=True)
+    meditation_sessions = db.relationship('MeditationSession', backref='user', lazy=True)
+    assessment_records = db.relationship('AssessmentRecord', backref='user', lazy=True)
+
+class Conversation(db.Model):
+    """用户与AI的对话记录表"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_message = db.Column(db.Text, nullable=False)
+    ai_response = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class BreathingSession(db.Model):
+    """情绪调节器（呼吸引导）记录表"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    duration_seconds = db.Column(db.Integer, nullable=False)       # 引导时长（秒）
+    technique = db.Column(db.String(50))                           # 引导技巧，如“4-7-8呼吸”
+    calm_level_before = db.Column(db.Integer)                      # 引导前平静度 (1-10)
+    calm_level_after = db.Column(db.Integer)                       # 引导后平静度 (1-10)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class MeditationSession(db.Model):
+    """冥想室记录表"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    duration_seconds = db.Column(db.Integer, nullable=False)       # 冥想时长（秒）
+    theme = db.Column(db.String(50))                               # 冥想主题
+    feeling_after = db.Column(db.String(200))                      # 冥想后感受
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class AssessmentRecord(db.Model):
+    """心理状态测评记录表"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    assessment_type = db.Column(db.String(50), nullable=False)     # 测评类型，如“压力自评”
+    score = db.Column(db.String(50), nullable=False)               # 得分或结果
+    summary = db.Column(db.Text)                                   # 结果摘要或建议
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+# ---------- 4. 初始化数据库（首次运行后可以注释掉下面三行） ----------
+with app.app_context():
+    db.create_all()
+    print("[初始化] 数据库表创建成功！如果已存在，则无变化。")
+
+# ---------- 5. 定义所有API路由（你的网站接口） ----------
 
 @app.route('/')
 def home_page():
+    """网站根目录，用于简单展示"""
     return '''
-    <h1>我的AI网站后端</h1>
+    <h1>心理健康应用后端</h1>
     <p>✅ 服务正在运行！</p>
-    <p>可用接口：</p>
+    <p>📚 <a href="/health">/health</a> - 健康检查接口</p>
+    <p>📝 主要API接口（请使用POSTMAN等工具测试）：</p>
     <ul>
-        <li><a href="/health">/health</a> - 健康检查</li>
-        <li>POST /chat - AI对话接口</li>
+        <li>POST /api/register - 用户注册 (JSON: {"phone":"手机号","password":"密码"})</li>
+        <li>POST /api/login - 用户登录</li>
+        <li>POST /api/chat - AI对话（需登录）</li>
+        <li>POST /api/breathing/session - 记录呼吸引导（需登录）</li>
+        <li>POST /api/meditation/session - 记录冥想（需登录）</li>
+        <li>POST /api/assessment/record - 记录测评结果（需登录）</li>
     </ul>
     '''
 
-# 5. 核心对话接口（已修改为模拟响应）
-@app.route('/chat', methods=['POST'])
+@app.route('/health', methods=['GET'])
+def health_check():
+    """健康检查接口，用于确认服务是否在线"""
+    return jsonify({"status": "ok", "message": "后端服务运行正常", "timestamp": datetime.utcnow().isoformat()})
+
+# ---------- 5.1 用户认证接口 ----------
+@app.route('/api/register', methods=['POST'])
+def register():
+    """用户注册接口"""
+    data = request.json
+    phone = data.get('phone')
+    password = data.get('password')
+    nickname = data.get('nickname', '')
+
+    # 检查手机号是否已注册
+    if User.query.filter_by(phone=phone).first():
+        return jsonify({'success': False, 'error': '手机号已注册'}), 400
+
+    # 加密密码并创建用户
+    hashed_pw = generate_password_hash(password)
+    new_user = User(phone=phone, password_hash=hashed_pw, nickname=nickname)
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({
+        'success': True,
+        'message': '注册成功',
+        'user_id': new_user.id
+    }), 201
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    """用户登录接口"""
+    data = request.json
+    phone = data.get('phone')
+    password = data.get('password')
+
+    user = User.query.filter_by(phone=phone).first()
+    # 验证用户存在且密码正确
+    if not user or not check_password_hash(user.password_hash, password):
+        return jsonify({'success': False, 'error': '手机号或密码错误'}), 401
+
+    # 登录成功，在session中记录用户ID
+    session['user_id'] = user.id
+    return jsonify({
+        'success': True,
+        'message': '登录成功',
+        'user_id': user.id,
+        'nickname': user.nickname
+    })
+
+# ---------- 5.2 核心功能接口（所有接口都需要用户已登录） ----------
+
+def login_required(func):
+    """一个简单的装饰器，用于检查用户是否登录"""
+    from functools import wraps
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if 'user_id' not in session:
+            return jsonify({'success': False, 'error': '请先登录'}), 401
+        return func(*args, **kwargs)
+    return wrapper
+
+@app.route('/api/chat', methods=['POST'])
+@login_required
 def chat_with_ai():
-    """模拟AI响应，保持接口格式不变，供前端正常调用"""
-    # 5.1 获取前端发来的数据
+    """AI对话接口（当前为模拟回复，未来可接入真实AI）"""
     data = request.json
     user_message = data.get('message', '')
 
-    if not user_message:
-        return jsonify({"error": "消息内容不能为空"}), 400
+    # 这里是AI处理逻辑（示例为模拟回复）
+    ai_response = f"[模拟回复] 我已收到：'{user_message[:30]}...'。当前服务为演示模式。"
 
-    try:
-        # ============ 【核心修改部分：模拟响应开始】 ============
-        print(f"[模拟模式] 收到用户问题: {user_message[:50]}...")
+    # 将对话记录到数据库
+    new_conversation = Conversation(
+        user_id=session['user_id'],
+        user_message=user_message,
+        ai_response=ai_response
+    )
+    db.session.add(new_conversation)
+    db.session.commit()
 
-        # 模拟一个“思考”过程，让响应更真实（可选）
-        time.sleep(0.3)
+    return jsonify({
+        'success': True,
+        'reply': ai_response,
+        'conversation_id': new_conversation.id
+    })
 
-        # 构建一个格式正确、有意义的模拟回复
-        ai_response = f"[模拟回复] 我已理解您的问题：'{user_message}'。当前AI服务正在升级配置中，真实功能即将上线。"
+@app.route('/api/breathing/session', methods=['POST'])
+@login_required
+def record_breathing():
+    """记录一次情绪调节（呼吸引导）的会话"""
+    data = request.json
+    new_session = BreathingSession(
+        user_id=session['user_id'],
+        duration_seconds=data.get('duration_seconds', 60),
+        technique=data.get('technique', '腹式呼吸'),
+        calm_level_before=data.get('calm_level_before', 5),
+        calm_level_after=data.get('calm_level_after', 7)
+    )
+    db.session.add(new_session)
+    db.session.commit()
+    return jsonify({'success': True, 'message': '呼吸引导记录已保存', 'session_id': new_session.id})
 
-        # 你也可以让回复更智能一些，例如：
-        if '你好' in user_message or 'hello' in user_message:
-            ai_response = "[模拟回复] 你好！我是网站的后端AI助手，目前处于演示模式。"
-        elif '天气' in user_message:
-            ai_response = "[模拟回复] 这是一个演示。接入真实天气API后，这里将返回真实的天气信息。"
-        # ============ 【核心修改部分：模拟响应结束】 ============
+@app.route('/api/meditation/session', methods=['POST'])
+@login_required
+def record_meditation():
+    """记录一次冥想会话"""
+    data = request.json
+    new_session = MeditationSession(
+        user_id=session['user_id'],
+        duration_seconds=data.get('duration_seconds', 300),
+        theme=data.get('theme', '正念呼吸'),
+        feeling_after=data.get('feeling_after', '感觉平静')
+    )
+    db.session.add(new_session)
+    db.session.commit()
+    return jsonify({'success': True, 'message': '冥想记录已保存', 'session_id': new_session.id})
 
-        # 5.2 返回标准格式的响应（前端无需任何修改）
-        return jsonify({"reply": ai_response})
+@app.route('/api/assessment/record', methods=['POST'])
+@login_required
+def record_assessment():
+    """记录一次心理测评结果"""
+    data = request.json
+    new_record = AssessmentRecord(
+        user_id=session['user_id'],
+        assessment_type=data.get('assessment_type', '压力自评量表'),
+        score=data.get('score', '0'),
+        summary=data.get('summary', '测试结果摘要')
+    )
+    db.session.add(new_record)
+    db.session.commit()
+    return jsonify({'success': True, 'message': '测评记录已保存', 'record_id': new_record.id})
 
-    except Exception as e:
-        # 如果发生意外错误
-        print(f"[错误] {str(e)}")
-        return jsonify({"error": f"服务器内部错误: {str(e)}"}), 500
-
+# ---------- 6. 启动服务器 ----------
 if __name__ == '__main__':
-    # 从环境变量获取端口，如果获取不到（如在本地运行）则默认为5000
+    # 从环境变量获取端口，本地开发默认为5000
     port = int(os.environ.get('PORT', 5000))
     print(f"✅ 后端服务器正在启动...")
-    print(f"🌐 本地测试地址: http://127.0.0.1:{port}")
+    print(f"🌐 本地访问: http://127.0.0.1:{port}")
+    print(f"🔧 数据库文件: mental_health.db")
     app.run(debug=True, host='0.0.0.0', port=port)
