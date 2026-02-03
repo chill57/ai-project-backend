@@ -20,7 +20,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mental_health.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.secret_key = os.environ['SECRET_KEY']  # 这将强制要求SECRET_KEY必须存在
+# 设置密钥（用于session加密，务必在Replit的Secrets中设置 SECRET_KEY）
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-fallback-secret-for-test-only')
 
 # 初始化数据库对象
 db = SQLAlchemy(app)
