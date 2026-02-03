@@ -16,6 +16,17 @@ app = Flask(__name__)
 def health_check():
     return jsonify({"status": "ok", "message": "后端服务器运行正常！"})
 
+@app.route('/')
+def home_page():
+    return '''
+    <h1>我的AI网站后端</h1>
+    <p>✅ 服务正在运行！</p>
+    <p>可用接口：</p>
+    <ul>
+        <li><a href="/health">/health</a> - 健康检查</li>
+        <li>POST /chat - AI对话接口</li>
+    </ul>
+    '''
 
 # 5. 核心对话接口（已修改为模拟响应）
 @app.route('/chat', methods=['POST'])
