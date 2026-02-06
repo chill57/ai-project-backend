@@ -5,7 +5,7 @@
 """
 
 # ---------- 1. 导入所有必需的库 ----------
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -235,6 +235,10 @@ def record_assessment():
     db.session.add(new_record)
     db.session.commit()
     return jsonify({'success': True, 'message': '测评记录已保存', 'record_id': new_record.id})
+    @app.route('/')
+    def home():
+        # 这行代码会自动在 `templates` 文件夹里寻找 `index.html` 并渲染
+        return render_template('index.html')
 
 # ---------- 6. 启动服务器 ----------
 if __name__ == '__main__':
