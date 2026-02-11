@@ -103,6 +103,7 @@ def home():
     # 这行代码会自动在 `templates` 文件夹里寻找 `index.html` 并渲染
     return render_template('index.html')
 
+
 @app.route('/health', methods=['GET'])
 def health_check():
     """健康检查接口，用于确认服务是否在线"""
@@ -202,77 +203,79 @@ def chat_with_ai():
 
 
 @app.route('/api/breathing/session', methods=['POST'])
-@login_required
 def record_breathing():
-    """记录一次情绪调节（呼吸引导）的会话"""
+    user_id = 1
     data = request.json
-    new_session = BreathingSession(
-        user_id=session['user_id'],
-        duration_seconds=data.get('duration_seconds', 60),
-        technique=data.get('technique', '腹式呼吸'),
-        calm_level_before=data.get('calm_level_before', 5),
-        calm_level_after=data.get('calm_level_after', 7))
-    db.session.add(new_session)
+    session_record = BreathingSession(
+        user_id=user_id,
+        duration_seconds=data.get('duration_seconds', 0),
+        technique=data.get('technique', '4-4-6呼吸法'),
+        calm_level_before=data.get('calm_level_before'),
+        calm_level_after=data.get('calm_level_after'))
+    db.session.add(session_record)
     db.session.commit()
-    return jsonify({
-        'success': True,
-        'message': '呼吸引导记录已保存',
-        'session_id': new_session.id
-    })
+    return jsonify({"message": "记录成功", "id": session_record.id})
 
 
 @app.route('/api/meditation/session', methods=['POST'])
-@login_required
 def record_meditation():
-    """记录一次冥想会话"""
+    user_id = 1
     data = request.json
-    new_session = MeditationSession(
-        user_id=session['user_id'],
-        duration_seconds=data.get('duration_seconds', 300),
-        theme=data.get('theme', '正念呼吸'),
-        feeling_after=data.get('feeling_after', '感觉平静'))
-    db.session.add(new_session)
+    session_record = MeditationSession(
+        user_id=user_id,
+        duration_seconds=data.get('duration_seconds', 0),
+        theme=data.get('theme', '正念冥想'),
+        feeling_after=data.get('feeling_after', '放松'))
+    db.session.add(session_record)
     db.session.commit()
-    return jsonify({
-        'success': True,
-        'message': '冥想记录已保存',
-        'session_id': new_session.id
-    })
+    return jsonify({"message": "记录成功", "id": session_record.id})
 
 
 @app.route('/api/assessment/record', methods=['POST'])
-@login_required
 def record_assessment():
-    """记录一次心理测评结果"""
+    # 开发阶段：临时绕过登录，使用默认用户ID 1
+    user_id = 1
     data = request.json
-    new_record = AssessmentRecord(user_id=session['user_id'],
-                                  assessment_type=data.get(
-                                      'assessment_type', '压力自评量表'),
-                                  score=data.get('score', '0'),
-                                  summary=data.get('summary', '测试结果摘要'))
-    db.session.add(new_record)
+    record = AssessmentRecord(user_id=user_id,
+                              assessment_type=data.get('assessment_type',
+                                                       '抑郁焦虑筛查'),
+                              score=data.get('score', '0'),
+                              summary=data.get('summary', ''))
+    db.session.add(record)
     db.session.commit()
-    return jsonify({
-        'success': True,
-        'message': '测评记录已保存',
-        'record_id': new_record.id
-    })
-    
+    return jsonify({"message": "记录成功", "id": record.id})
+
+
 # 呼吸引导页面
 @app.route('/breathing')
 def breathing_page():
     return render_template('breathing.html')
+
 
 # 心理测评页面
 @app.route('/assessment')
 def assessment_page():
     return render_template('assessment.html')
 
+
 # 冥想室页面
 @app.route('/meditation')
 def meditation_page():
     return render_template('meditation.html')
 
+
+# ===== 开发环境：自动创建测试用户（ID=1）=====
+with app.app_context():
+    test_user = User.query.filter_by(id=1).first()
+    if not test_user:
+        test_user = User(phone="13800000000",
+                         password_hash="dev-mode-not-used")
+        db.session.add(test_user)
+        db.session.commit()
+        print("✅ 测试用户创建成功，ID=1")
+    else:
+        print("✅ 测试用户已存在，ID=1")
+# ==========================================
 
 # ---------- 6. 启动服务器 ----------
 if __name__ == '__main__':
