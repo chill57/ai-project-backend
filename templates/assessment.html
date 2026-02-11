@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理状态测评</title>
+    <style>
+        /* 队友测评部分样式完全保留 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #f7fafc;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        nav { margin-bottom: 20px; }
+        nav a { color: #5a67d8; text-decoration: none; font-weight: 600; }
+        h2 { color: #2d3748; margin-bottom: 10px; font-size: 1.8rem; }
+        .block-desc { color: #4a5568; margin-bottom: 25px; font-size: 1.1rem; }
+        .quiz-item {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .quiz-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+        .quiz-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .option-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 8px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 40px;
+            font-size: 1rem;
+            color: #334155;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .option-btn:hover {
+            border-color: #5a67d8;
+            background: #ebf4ff;
+        }
+        .option-btn.selected {
+            background: #5a67d8;
+            border-color: #5a67d8;
+            color: white;
+        }
+        .next-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 30px 0 10px;
+            cursor: pointer;
+        }
+        .next-btn:hover { background: #38a169; }
+        #submit-btn {
+            background: #5a67d8;
+        }
+        #submit-btn:hover { background: #4c51bf; }
+        .progress {
+            text-align: right;
+            color: #718096;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/">← 返回首页</a>
+        </nav>
+
+        <h2>心理状态测评</h2>
+        <p class="block-desc">请认真作答以下题目，共10题，预计耗时5分钟：</p>
+
+        <!-- 进度显示 -->
+        <div class="progress" id="progress">第 1 / 10 题</div>
+
+        <!-- 题目动态渲染区域 -->
+        <div id="quiz-container"></div>
+
+        <!-- 下一题按钮（默认显示） -->
+        <button id="next-btn" class="next-btn">下一题</button>
+
+        <!-- 提交按钮（答完最后一题后显示） -->
+        <button id="submit-btn" class="next-btn" style="display: none;">提交测评</button>
+    </div>
+
+    <script src="/static/js/assessment.js"></script>
+</body>
+</html>

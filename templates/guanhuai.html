@@ -3,66 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>心理关怀工具集</title>
+    <title>心理关怀工具集 · 功能导航</title>
+    <!-- Tailwind CSS (轻量样式) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 你原有的自定义样式（如果有） -->
     <link rel="stylesheet" href="../static/css/style.css">
+    <style>
+        /* 保持队友原来的按钮风格，只做微调 */
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 40px;
+            background: white;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 0.25rem;
+        }
+        .nav-btn:hover {
+            border-color: #5a67d8;
+            background: #ebf4ff;
+        }
+        .nav-btn.active {
+            background: #5a67d8;
+            color: white;
+            border-color: #5a67d8;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #5a67d8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+    </style>
 </head>
-<body>
-  <div class="container mx-auto max-w-4xl">
-    <!-- B页面内导航 -->
-
-    <header>
-        <div class="container mx-auto max-w-4xl">
-               <!-- 新增：左上角返回按钮 -->
-               <a href="index.html" class="back-btn">← 返回首页</a>
-         </div>
-        <div class="max-w-7x1">
-            <button class="nav-btn active" onclick="showContent('content1')">情绪调节器</button>
-            <button class="nav-btn" onclick="showContent('content2')">心理状态测评</button>
-            <button class="nav-btn" onclick="showContent('content3')">冥想室</button>
+<body class="bg-gray-50">
+    <div class="container mx-auto max-w-6xl px-4">
+        <!-- 返回首页链接（保留） -->
+        <div class="mb-6">
+            <a href="/" class="back-btn text-indigo-600 hover:text-indigo-800">← 返回首页</a>
         </div>
-    </header>
-    <!-- 内容块1：呼吸引导 -->
-    <div id="content1" class="content-block active">
-      <h2 class="block-title blue">情绪调节器 - 呼吸引导</h2>
-      <p class="block-desc">跟随以下节奏深呼吸，快速平复焦虑情绪：</p>
-      <ul class="block-list">
-        <li>吸气：缓慢吸气4秒，感受腹部鼓起</li>
-        <li>屏息：保持4秒，放松全身</li>
-        <li>呼气：缓慢呼气6秒，释放所有压力</li>
-      </ul>
-      <div class="breathing-circle"></div>
-    </div>
 
-    <!-- 内容块2：心理测评 -->
-    <div id="content2" class="content-block">
-      <h2 class="block-title green">心理状态测评</h2>
-      <p class="block-desc">请认真作答以下题目，共10题，预计耗时5分钟：</p>
-      <div class="quiz-item">
-        <p class="quiz-question">1. 最近一周，你是否经常感到情绪低落、提不起劲？</p>
-        <div class="quiz-options">
-          <button class="option-btn">没有</button>
-          <button class="option-btn">偶尔</button>
-          <button class="option-btn">经常</button>
-          <button class="option-btn">总是</button>
+        <!-- 功能导航卡片区（替代原来的选项卡） -->
+        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
+                🧘 心理关怀工具集
+            </h1>
+            <p class="text-gray-600 text-center text-lg mb-10">
+                选择以下功能，开始你的心理调节之旅
+            </p>
+
+            <!-- 三个功能卡片（点击后跳转独立页面） -->
+            <div class="grid md:grid-cols-3 gap-8 mt-8">
+                <!-- 呼吸引导卡片 -->
+                <a href="/breathing" class="block bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl hover:shadow-xl transition border-2 border-transparent hover:border-indigo-300">
+                    <div class="text-5xl mb-4">🌬️</div>
+                    <h2 class="text-2xl font-bold text-indigo-700 mb-2">情绪调节器</h2>
+                    <p class="text-gray-700 mb-4">4-4-6呼吸法 · 动画引导 · 语音陪伴</p>
+                    <span class="inline-block bg-indigo-600 text-white px-6 py-2 rounded-full text-sm font-semibold">开始呼吸 →</span>
+                </a>
+
+                <!-- 心理测评卡片 -->
+                <a href="/assessment" class="block bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-3xl hover:shadow-xl transition border-2 border-transparent hover:border-emerald-300">
+                    <div class="text-5xl mb-4">📋</div>
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-2">心理状态测评</h2>
+                    <p class="text-gray-700 mb-4">10题专业筛查 · 即时结果 · 改善建议</p>
+                    <span class="inline-block bg-emerald-600 text-white px-6 py-2 rounded-full text-sm font-semibold">开始测评 →</span>
+                </a>
+
+                <!-- 冥想室卡片 -->
+                <a href="/meditation" class="block bg-gradient-to-br from-purple-50 to-violet-50 p-8 rounded-3xl hover:shadow-xl transition border-2 border-transparent hover:border-purple-300">
+                    <div class="text-5xl mb-4">🧘</div>
+                    <h2 class="text-2xl font-bold text-purple-700 mb-2">冥想室</h2>
+                    <p class="text-gray-700 mb-4">5/10/15分钟 · 沉浸计时 · 放松记录</p>
+                    <span class="inline-block bg-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold">进入冥想 →</span>
+                </a>
+            </div>
+
+            <!-- 简洁的提示文字 -->
+            <p class="text-center text-gray-500 mt-10 text-sm">
+                每个功能都是独立、完整的体验页面，点击卡片即可进入。
+            </p>
         </div>
-      </div>
-      <button class="next-btn green">下一题</button>
     </div>
-
-    <!-- 内容块3：冥想室 -->
-    <div id="content3" class="content-block">
-      <h2 class="block-title purple">冥想室</h2>
-      <p class="block-desc">选择适合你的冥想时长，开始沉浸式放松：</p>
-      <div class="duration-options">
-        <button class="duration-btn purple">5分钟（入门）</button>
-        <button class="duration-btn purple">10分钟（进阶）</button>
-        <button class="duration-btn purple">15分钟（深度）</button>
-      </div>
-      <button class="start-btn purple">开始冥想</button>
-    </div>
-  </div>
-    <!-- 引入外部JS交互文件（放在body末尾，避免DOM未加载的问题） -->
-    <script src="../static/js/main.js"></script>
 </body>
 </html>
