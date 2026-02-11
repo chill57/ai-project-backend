@@ -257,7 +257,21 @@ def record_assessment():
         'message': '测评记录已保存',
         'record_id': new_record.id
     })
+    
+# 呼吸引导页面
+@app.route('/breathing')
+def breathing_page():
+    return render_template('breathing.html')
 
+# 心理测评页面
+@app.route('/assessment')
+def assessment_page():
+    return render_template('assessment.html')
+
+# 冥想室页面
+@app.route('/meditation')
+def meditation_page():
+    return render_template('meditation.html')
 
 
 # ---------- 6. 启动服务器 ----------
