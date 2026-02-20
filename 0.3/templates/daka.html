@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日打卡 · 今日限定</title>
+    <link rel="stylesheet" href="../static/css/date.css">
+</head>
+<body>
+    <div class="card">
+        <h2>
+            <nav>
+            <a href="./home.html">← 返回首页</a>
+            </nav>
+            <span>📅 今日打卡</span>
+            <div class="month-nav">
+                <button id="prevMonth">←</button>
+                <span id="currentMonthYear">2025年2月</span>
+                <button id="nextMonth">→</button>
+                <button id="toggleCollapseBtn" title="折叠/展开">⬆️ 收起</button>
+            </div>
+
+        </h2>
+
+        <div class="weekdays">
+            <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+        </div>
+
+        <div id="calendar" class="calendar-grid"></div>
+
+        <!-- 详情面板 + 打卡按钮 -->
+        <div class="detail-panel" id="detailPanel">
+            <div class="detail-date" id="selectedDate">请点击日期</div>
+            <div class="detail-content" id="selectedContent">👆 点击上面某一天查看详情</div>
+            <button id="checkTodayBtn" class="check-btn" style="display: none;">今日打卡</button>
+        </div>
+
+        <button class="reset-button" id="resetData">重置所有打卡记录</button>
+    </div>
+    <script src="../static/js/date.js"></script>
+
+</body>
+</html>

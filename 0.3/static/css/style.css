@@ -1,0 +1,245 @@
+/* 导览样式 */
+.nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    border: none;
+    background: #e2e8f0;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+    .nav-btn.active {
+        background: #3b82f6;
+        color: white;
+    }
+/* 内容块样式 */
+.content {
+    display: none; /* 初始全部隐藏 */
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+}
+
+    .content.active {
+        display: block; /* 激活状态显示 */
+    }
+
+
+header {
+    /* p-4: 内边距上下左右均为1rem（16px），Tailwind的默认间距单位 */
+    padding: 1rem;
+    /* bg-white: 背景色为白色 */
+    background-color: #ffffff;
+    /* shadow-md: 中等强度的阴影效果，模拟Tailwind的shadow-md */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    /* sticky top-0: 粘性定位，滚动时固定在顶部（top: 0） */
+    position: sticky;
+    top: 0px;
+    /* z-10: 设置z轴层级为10，确保header在其他元素上方 */
+    z-index: 10;
+}
+
+    /* 定义header内部的div容器样式 */
+    header > div {
+        /* max-w-8xl: 最大宽度为8xl（Tailwind默认是1280px） */
+        max-width: 1280px;
+        /* mx-auto: 水平方向自动外边距，实现居中对齐 */
+        margin-left: auto;
+        margin-right: auto;
+        /* flex: 设置为flex弹性布局 */
+        display: flex;
+        /* justify-between: flex子元素两端对齐 */
+        justify-content: space-between;
+        /* items-center: flex子元素垂直居中对齐 */
+        align-items: center;
+    }
+
+
+/* 页面基础样式 */
+body {
+    background-color: #f3f4f6; /* bg-gray-100 */
+    padding: 2rem; /* p-8 */
+}
+
+/* 导航容器 */
+.nav-container {
+    margin-bottom: 2rem; /* mb-8 */
+}
+
+/* 导航按钮 */
+.nav-btn {
+    padding: 0.5rem 1rem; /* px-4 py-2 */
+    margin-right: 0.5rem; /* mr-2 */
+    border: none;
+    border-radius: 0.375rem; /* rounded */
+    cursor: pointer;
+    background-color: #e5e7eb; /* bg-gray-200 */
+    color: #374151; /* text-gray-800 */
+    transition: background-color 0.2s ease;
+}
+
+    .nav-btn.active {
+        background-color: #2563eb; /* bg-blue-600 */
+        color: white;
+    }
+
+/* 内容块基础样式 */
+.content-block {
+    display: none; /* 默认隐藏 */
+    padding: 2rem; /* p-8 */
+    background-color: white;
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* shadow-md */
+}
+
+    .content-block.active {
+        display: block; /* 激活时显示 */
+    }
+
+/* 内容块标题 */
+.block-title {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 700; /* font-bold */
+    margin-bottom: 1rem; /* mb-4 */
+}
+
+    .block-title.blue {
+        color: #2563eb;
+    }
+    /* text-blue-600 */
+    .block-title.green {
+        color: #16a34a;
+    }
+    /* text-green-600 */
+    .block-title.purple {
+        color: #9333ea;
+    }
+/* text-purple-600 */
+
+/* 内容块描述 */
+.block-desc {
+    color: #374151; /* text-gray-700 */
+    margin-bottom: 1rem; /* mb-4 */
+}
+
+/* 内容块列表 */
+.block-list {
+    list-style-type: disc;
+    padding-left: 1.5rem; /* pl-6 */
+    color: #374151; /* text-gray-700 */
+    margin-bottom: 1rem; /* mb-4 */
+}
+
+/* 呼吸引导圆圈 */
+.breathing-circle {
+    width: 6rem; /* w-24 */
+    height: 6rem; /* h-24 */
+    background-color: #2563eb; /* bg-blue-500 */
+    border-radius: 50%; /* rounded-full */
+    margin: 0 auto; /* mx-auto */
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(0.95);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+}
+
+/* 测评题容器 */
+.quiz-item {
+    padding: 1rem; /* p-4 */
+    background-color: #f9fafb; /* bg-gray-50 */
+    border-radius: 0.5rem; /* rounded-lg */
+    margin-bottom: 1rem; /* mb-4 */
+}
+
+/* 测评题问题 */
+.quiz-question {
+    font-weight: 500; /* font-medium */
+    margin-bottom: 0.5rem; /* mb-2 */
+}
+
+/* 测评选项按钮 */
+.option-btn {
+    padding: 0.5rem 0.75rem; /* px-3 py-1 */
+    background-color: #e5e7eb; /* bg-gray-200 */
+    border: none;
+    border-radius: 0.375rem; /* rounded */
+    margin-right: 0.5rem; /* mr-2 */
+    cursor: pointer;
+}
+
+/* 下一题按钮 */
+.next-btn {
+    padding: 0.5rem 1.5rem; /* px-6 py-2 */
+    background-color: #16a34a; /* bg-green-500 */
+    color: white;
+    border: none;
+    border-radius: 0.5rem; /* rounded */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+    .next-btn:hover {
+        background-color: #15803d; /* hover:bg-green-600 */
+    }
+
+/* 冥想时长选项 */
+.duration-options {
+    display: flex;
+    gap: 1rem; /* gap-4 */
+    margin-bottom: 1.5rem; /* mb-6 */
+}
+
+/* 时长按钮 */
+.duration-btn {
+    padding: 0.5rem 1rem; /* px-4 py-2 */
+    background-color: #9333ea; /* bg-purple-500 */
+    color: white;
+    border: none;
+    border-radius: 0.5rem; /* rounded */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+    .duration-btn:hover {
+        background-color: #7e22ce; /* hover:bg-purple-600 */
+    }
+
+/* 开始冥想按钮 */
+.start-btn {
+    padding: 0.5rem 1.5rem; /* px-6 py-2 */
+    background-color: #7e22ce; /* bg-purple-600 */
+    color: white;
+    border: none;
+    border-radius: 0.5rem; /* rounded */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+    .start-btn:hover {
+        background-color: #6b21a8; /* hover:bg-purple-700 */
+    }
+
+/* 新增：返回按钮样式（左上角固定） */
+.back-btn {
+    display: inline-block;
+    margin-bottom: 1.5rem; /* 和下方导航保持间距 */
+    padding: 0.5rem 1rem;
+    color: #2563eb; /* 蓝色文字，和主题呼应 */
+    text-decoration: none; /* 去掉下划线 */
+    font-weight: 500;
+    transition: color 0.2s ease;
+}

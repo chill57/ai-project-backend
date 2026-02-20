@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(145deg, #e8f0fe, #dce5f5);
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 36px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(98, 114, 164, 0.15);
+    text-align: center;
+}
+
+nav {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+    nav a {
+        color: #5a67d8;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+h2 {
+    color: #2d3748;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.block-desc {
+    color: #4a5568;
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+}
+
+.duration-options {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.duration-btn {
+    background: white;
+    border: 2px solid #cbd5e0;
+    padding: 14px 24px;
+    border-radius: 60px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+    .duration-btn:hover {
+        border-color: #9f7aea;
+        background: #f3e8ff;
+    }
+
+    .duration-btn.selected {
+        background: #5a67d8;
+        border-color: #5a67d8;
+        color: white;
+    }
+
+.start-btn {
+    background: #48bb78;
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 60px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 20px 0;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 80%;
+}
+
+    .start-btn:hover {
+        background: #38a169;
+    }
+
+    .start-btn:disabled {
+        background: #cbd5e0;
+        cursor: not-allowed;
+    }
+
+.meditation-timer {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 30px;
+}
+
+.timer-display {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #5a67d8;
+    margin: 20px 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.stop-btn {
+    background: #fc8181;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 40px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .stop-btn:hover {
+        background: #f56565;
+    }
