@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>心理关怀工具集</title>
+    <link rel="stylesheet" href="../static/css/all.css">
+    <link rel="stylesheet" href="../static/css/loginsignup.css">
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- 导航栏 (Header) -->
+    <header>
+        <!-- 将 max-w-8xl 改为 max-w-7xl (tailwind 常用最大宽度) 保证一致性，并保留 mx-auto 居中 -->
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="feback">
+                <img src="../static/images/xinyuqingchuang.jpg" class="h-7" alt="logo">
+                <h1 class="text-2xl font-bold text-teal-600">心语晴窗</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="./index.html" class="hover:text-teal-600 transition duration-300">ai对话</a>
+                <a href="./guanhuai.html" class="text-teal-600 font-semibold transition duration-300">心理关怀工具</a>
+                <!-- 当前页面高亮 -->
+                <a href="./tree.html" class="hover:text-teal-600 transition duration-300">匿名树洞</a>
+                <a href="./knowledge.html" class="hover:text-teal-600 transition duration-300">心理健康知识</a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <button class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105" id='loginBtn'>
+                    登录/注册
+                </button>
+                <span class="text-sm font-normal text-gray-500 border-l border-gray-300 pl-3">建议与反馈</span>
+            </div>
+        </div>
+    </header>
+    <!--登录模拟框-->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeLogin">&times;</span>
+            <h2>登录</h2>
+            <form id="loginForm">
+                <label for="loginUsername">账号</label>
+                <input type="text" id="loginUsername" name="username" placeholder="请输入账号" required>
+
+                <label for="loginPassword">密码</label>
+                <input type="password" id="loginPassword" name="password" placeholder="请输入密码" required>
+
+                <div class="button-group">
+                    <button type="button" class="login-btn" id="modalLoginBtn">登录</button>
+                    <button type="button" class="register-btn" id="modalRegisterBtn">注册</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!--注册模拟框-->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeRegister">&times;</span>
+            <h2>注册</h2>
+            <form id="registerForm">
+                <!-- 用户名 -->
+                <label for="regUsername">用户名</label>
+                <input type="text" id="regUsername" name="username" placeholder="请输入用户名" required>
+                <div class="input-hint">2~10个字母</div>
+
+                <!-- 密码 -->
+                <label for="regPassword">密码</label>
+                <input type="password" id="regPassword" name="password" placeholder="请输入密码" required>
+                <div class="input-hint">6~16位英文或数字</div>
+
+                <!-- 确认密码 -->
+                <label for="regConfirmPassword">确认密码</label>
+                <input type="password" id="regConfirmPassword" name="confirmPassword" placeholder="请再次输入密码" required>
+
+                <!-- 按钮组 -->
+                <div class="button-group">
+                    <button type="button" class="register-btn" id="modalRegisterConfirmBtn">注册</button>
+                </div>
+
+                <!-- 返回登录链接 -->
+                <div class="back-link">
+                    <a id="backToLogin">← 返回登录</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../static/js/loginsignup.js"></script>
+
+
+    <section id="innovation" class="toolbox">
+        <h3 class="toolh3">
+            心理关怀工具集
+        </h3>
+        <div class="toolcardbox">
+            <!-- 情绪调节器 -->
+            <div class="toolcard border-t-4 border-teal-500">
+                <h4 class="text-2xl font-bold mb-2">情绪调节器</h4>
+                <p class="text-gray-600">跟随呼吸节奏放松身心，快速平复焦虑与烦躁情绪</p>
+                <div class="card-btn" style="margin-top: auto; margin-bottom: 0;">
+                    <a href="./breathing.html" class="inline-block bg-teal-500 text-white px-6 py-3 rounded-full hover:bg-teal-600 transition shadow-md">
+                    进入呼吸引导 
+                    </a>
+                    </div>
+                </div>
+            <!-- 心理状态测评 -->
+            <div class="toolcard border-t-4 border-yellow-500">
+                <h4 class="text-2xl font-bold mb-2">心理状态测评</h4>
+                <p class="text-gray-600">专业心理量表测评，快速了解自身情绪与心理状态</p>
+                <div class="card-btn" style="margin-top: auto; margin-bottom: 0;">
+                    <a href="./assessment.html" class="inline-block bg-yellow-500 text-white px-6 py-3 rounded-full hover:bg-yellow-600 transition shadow-md">
+                    开始测评 
+                    </a>
+                </div>
+            </div>
+            <!-- 冥想室 -->
+            <div class="toolcard border-t-4 border-red-500">
+                <h4 class="text-2xl font-bold mb-2">冥想室</h4>
+                <p class="text-gray-600">沉浸式冥想体验，舒缓压力、提升专注力</p>
+                <div class="card-btn" style="margin-top: auto; margin-bottom: 0;">
+                    <a href="./meditation.html" class="inline-block bg-red-500 text-white px-6 py-3 rounded-full hover:bg-red-600 transition shadow-md">
+                    进入冥想室 
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

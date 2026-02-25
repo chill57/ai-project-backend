@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter 字体 (与 all.css 中的 body 匹配) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 自定义样式 (all.css 包含 header 基础样式、颜色变量等) -->
+    <link rel="stylesheet" href="../static/css/all.css">
+    <link rel="stylesheet" href="../static/css/loginsignup.css">
+    <title>心语晴窗 · 匿名树洞</title>
+    <style>
+        /* 细微调整：确保 textarea 可以垂直缩放，同时保持设计干净 */
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        /* 让卡片内的操作按钮有更好的点击区域 */
+        .action-btn {
+            transition: color 0.2s ease;
+        }
+        .action-btn:hover {
+            color: #0f766e; /* teal-700 */
+        }
+        /* 模拟贴吧的置顶标识 */
+        .sticky-badge {
+            background-color: #fbbf24; /* amber-400 */
+            color: #78350f;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- 导航栏 (Header) 保持原样，仅微调了 max-w-* 以确保居中，并高亮当前页 -->
+    <header>
+        <!-- 将 max-w-8xl 改为 max-w-7xl (tailwind 常用最大宽度) 保证一致性，并保留 mx-auto 居中 -->
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="feback">
+                <img src="../static/images/xinyuqingchuang.jpg" class="h-7" alt="logo">
+                <h1 class="text-2xl font-bold text-teal-600">心语晴窗</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="./index.html" class="hover:text-teal-600 transition duration-300">ai对话</a>
+                <a href="./guanhuai.html" class="hover:text-teal-600 transition duration-300">心理关怀工具</a>
+                <!-- 当前页面高亮 -->
+                <a href="./tree.html" class="text-teal-600 font-semibold transition duration-300">匿名树洞</a>
+                <a href="./knowledge.html" class="hover:text-teal-600 transition duration-300">心理健康知识</a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <button class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105" id='loginBtn'>
+                    登录/注册
+                </button>
+                <span class="text-sm font-normal text-gray-500 border-l border-gray-300 pl-3">建议与反馈</span>
+            </div>
+        </div>
+    </header>
+    <!--登录模拟框-->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeLogin">&times;</span>
+            <h2>登录</h2>
+            <form id="loginForm">
+                <label for="loginUsername">账号</label>
+                <input type="text" id="loginUsername" name="username" placeholder="请输入账号" required>
+
+                <label for="loginPassword">密码</label>
+                <input type="password" id="loginPassword" name="password" placeholder="请输入密码" required>
+
+                <div class="button-group">
+                    <button type="button" class="login-btn" id="modalLoginBtn">登录</button>
+                    <button type="button" class="register-btn" id="modalRegisterBtn">注册</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!--注册模拟框-->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeRegister">&times;</span>
+            <h2>注册</h2>
+            <form id="registerForm">
+                <!-- 用户名 -->
+                <label for="regUsername">用户名</label>
+                <input type="text" id="regUsername" name="username" placeholder="请输入用户名" required>
+                <div class="input-hint">2~10个字母</div>
+
+                <!-- 密码 -->
+                <label for="regPassword">密码</label>
+                <input type="password" id="regPassword" name="password" placeholder="请输入密码" required>
+                <div class="input-hint">6~16位英文或数字</div>
+
+                <!-- 确认密码 -->
+                <label for="regConfirmPassword">确认密码</label>
+                <input type="password" id="regConfirmPassword" name="confirmPassword" placeholder="请再次输入密码" required>
+
+                <!-- 按钮组 -->
+                <div class="button-group">
+                    <button type="button" class="register-btn" id="modalRegisterConfirmBtn">注册</button>
+                </div>
+
+                <!-- 返回登录链接 -->
+                <div class="back-link">
+                    <a id="backToLogin">← 返回登录</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../static/js/loginsignup.js"></script>
+
+
+    <!-- 主内容区：匿名树洞 (贴吧风格) -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 页面标题与描述 -->
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 border-b border-teal-100 pb-4">
+            <div>
+                <h2 class="text-3xl font-bold text-teal-700 inline-flex items-center gap-2">
+                    匿名树洞
+                    <span class="text-sm font-normal bg-teal-100 text-teal-700 px-3 py-1 rounded-full">倾诉·陪伴·疗愈</span>
+                </h2>
+                <p class="text-gray-500 mt-1 text-sm">在这里，每一句话都是安全的。可以分享心情、困惑，或只是来看看。</p>
+            </div>
+            <!-- 今日统计 (模拟) -->
+            <div class="mt-2 sm:mt-0 flex gap-2 text-sm">
+                <span class="bg-white shadow-sm px-3 py-1 rounded-full text-teal-700 border border-teal-200">📋 今日 24 帖</span>
+                <span class="bg-white shadow-sm px-3 py-1 rounded-full text-amber-700 border border-amber-200">👥 在线 56 人</span>
+            </div>
+        </div>
+
+        <!-- 发帖卡片 (类似贴吧快速发帖区) -->
+        <div class="bg-white rounded-xl shadow-md p-4 sm:p-5 mb-8 border border-teal-50">
+            <div class="flex gap-3 sm:gap-4">
+                <!-- 匿名头像 -->
+                <div class="w-10 h-10 rounded-full bg-teal-100 flex-shrink-0 flex items-center justify-center text-teal-700 font-bold text-lg shadow-sm">🌿</div>
+                <div class="flex-1">
+                    <textarea rows="2" class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent bg-gray-50" placeholder="此刻的心情、烦恼或任何想说的... (匿名发布，仅树洞可见)"></textarea>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mt-3">
+                        <div class="flex items-center text-xs text-gray-400 space-x-2">
+                            <span>🔒 匿名</span>
+                            <span>·</span>
+                            <span>💬 树洞规则：友善倾听</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="px-5 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-lg transition duration-300 text-sm shadow-sm">发布到树洞</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 帖子过滤 Tab (模拟贴吧导航) -->
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+            <div class="flex gap-1 bg-white p-1 rounded-full shadow-sm">
+                <button class="px-4 py-1.5 bg-teal-100 text-teal-700 rounded-full text-sm font-medium transition">最新</button>
+                <button class="px-4 py-1.5 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium transition">最热</button>
+                <button class="px-4 py-1.5 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium transition">待回应</button>
+                <button class="px-4 py-1.5 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium transition">精华</button>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+                <span class="text-gray-500">排序:</span>
+                <select class="border-0 bg-transparent text-teal-700 font-medium focus:ring-0 text-sm">
+                    <option>按发布时间</option>
+                    <option>按回复数</option>
+                    <option>按点赞数</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 帖子列表 (类似贴吧的卡片流) -->
+        <div class="flex flex-col gap-4">
+            <!-- 置顶帖示例 (特殊标识) -->
+            <div class="bg-amber-50/80 border-l-4 border-amber-400 rounded-lg shadow-sm p-4 flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-amber-200 flex-shrink-0 flex items-center justify-center text-amber-800 text-xs font-bold">📢</div>
+                <div class="flex-1">
+                    <div class="flex items-center flex-wrap gap-2">
+                        <span class="font-semibold text-gray-700">树洞公告</span>
+                        <span class="sticky-badge">置顶</span>
+                        <span class="text-xs text-gray-400">· 管理员  · 1天前</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-1">欢迎使用匿名树洞 🌱 请友善交流，禁止人身攻击。树洞会定期清理旧帖，保护隐私。</p>
+                    <div class="flex items-center gap-4 mt-2 text-gray-400 text-xs">
+                        <span>💬 45</span>
+                        <span>❤️ 132</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 普通帖子 1 -->
+            <div class="bg-white rounded-xl shadow-md p-4 sm:p-5 hover:shadow-lg transition duration-300 border border-gray-100">
+                <div class="flex gap-3">
+                    <!-- 随机匿名头像 (不同背景色体现匿名感) -->
+                    <div class="w-10 h-10 rounded-full bg-purple-100 flex-shrink-0 flex items-center justify-center text-purple-700 font-bold text-lg shadow-sm">🍃</div>
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                            <span class="font-semibold text-gray-800">匿名用户<span class="text-sm text-gray-400 ml-1">#A23F</span></span>
+                            <span class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-600">树洞居民</span>
+                            <span class="text-xs text-gray-400 ml-auto">· 2分钟前</span>
+                        </div>
+                        <p class="mt-2 text-gray-700">今天心情很低落，感觉做什么都没劲。有一样的小伙伴吗？想找人聊聊，但不敢告诉身边的人……</p>
+                        <!-- 互动区 -->
+                        <div class="flex items-center gap-4 sm:gap-6 mt-3 text-gray-500 text-sm">
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">💬 3</span>
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">❤️ 7</span>
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">↗️ 分享</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 普通帖子 2 (包含模拟图片) -->
+            <div class="bg-white rounded-xl shadow-md p-4 sm:p-5 hover:shadow-lg transition duration-300 border border-gray-100">
+                <div class="flex gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex-shrink-0 flex items-center justify-center text-blue-700 font-bold text-lg shadow-sm">🌊</div>
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                            <span class="font-semibold text-gray-800">匿名用户<span class="text-sm text-gray-400 ml-1">#B7D2</span></span>
+                            <span class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-600">树洞居民</span>
+                            <span class="text-xs text-gray-400 ml-auto">· 昨天 14:23</span>
+                        </div>
+                        <p class="mt-2 text-gray-700">终于考完试了，感觉解放了！大家有什么放松的方式吗？我打算去爬山，或者有没有人推荐治愈的电影？</p>
+                        <!-- 模拟图片区域 (贴吧常见) -->
+                        <div class="mt-3 bg-gray-100 w-full h-32 rounded-lg flex items-center justify-center text-gray-400 border border-dashed border-gray-300 text-sm">
+                            🌄 用户分享了一张图片 (预览)
+                        </div>
+                        <div class="flex items-center gap-4 sm:gap-6 mt-3 text-gray-500 text-sm">
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">💬 12</span>
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">❤️ 24</span>
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">↗️ 分享</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 普通帖子 3 (长内容) -->
+            <div class="bg-white rounded-xl shadow-md p-4 sm:p-5 hover:shadow-lg transition duration-300 border border-gray-100">
+                <div class="flex gap-3">
+                    <div class="w-10 h-10 rounded-full bg-amber-100 flex-shrink-0 flex items-center justify-center text-amber-700 font-bold text-lg shadow-sm">🍂</div>
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                            <span class="font-semibold text-gray-800">匿名用户<span class="text-sm text-gray-400 ml-1">#C91E</span></span>
+                            <span class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-600">树洞居民</span>
+                            <span class="text-xs text-gray-400 ml-auto">· 2024-05-20</span>
+                        </div>
+                        <p class="mt-2 text-gray-700">树洞，我喜欢上了一个人，但不敢说出口。每次见面都心跳加速，可又怕连朋友都做不成。我该怎么办？</p>
+                        <div class="flex items-center gap-4 sm:gap-6 mt-3 text-gray-500 text-sm">
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">💬 8</span>
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">❤️ 15</span>
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">↗️ 分享</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 普通帖子 4 (带引用/回复样式) -->
+            <div class="bg-white rounded-xl shadow-md p-4 sm:p-5 hover:shadow-lg transition duration-300 border border-gray-100">
+                <div class="flex gap-3">
+                    <div class="w-10 h-10 rounded-full bg-green-100 flex-shrink-0 flex items-center justify-center text-green-700 font-bold text-lg shadow-sm">🌱</div>
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                            <span class="font-semibold text-gray-800">匿名用户<span class="text-sm text-gray-400 ml-1">#D4E5</span></span>
+                            <span class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-600">树洞居民</span>
+                            <span class="text-xs text-gray-400 ml-auto">· 3小时前</span>
+                        </div>
+                        <p class="mt-2 text-gray-700">回复 <span class="text-teal-600">@A23F</span> ：我也经常这样，试着做一些小事转移注意力，比如听音乐或者写日记。希望你能好起来～</p>
+                        <!-- 显示被回复的引用块 (贴吧风格) -->
+                        <div class="mt-2 pl-3 border-l-4 border-teal-200 bg-teal-50/30 p-2 rounded text-sm text-gray-500 italic">
+                            引用: "今天心情很低落，感觉做什么都没劲..."
+                        </div>
+                        <div class="flex items-center gap-4 sm:gap-6 mt-3 text-gray-500 text-sm">
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">💬 2</span>
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">❤️ 6</span>
+                            <span class="action-btn flex items-center gap-1 cursor-pointer">↗️ 分享</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 加载更多 / 分页 (模拟) -->
+        <div class="mt-8 text-center">
+            <button class="px-6 py-2 bg-white border border-teal-200 text-teal-700 rounded-full hover:bg-teal-50 transition font-medium shadow-sm text-sm">
+                加载更多帖子
+            </button>
+            <p class="text-xs text-gray-400 mt-3">—— 树洞会记住每一份心事 ——</p>
+        </div>
+    </main>
+
+    <!-- 简单页脚 (可选) -->
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-t border-teal-100 mt-6 text-xs text-gray-400 flex flex-wrap justify-between">
+        <span>© 2025 心语晴窗 · 匿名树洞 · 温暖陪伴</span>
+        <span class="space-x-4">
+            <a href="#" class="hover:text-teal-600">隐私保护</a>
+            <a href="#" class="hover:text-teal-600">树洞公约</a>
+        </span>
+    </footer>
+
+    <!-- 如果需要登录/注册按钮的交互，可以留空或后续添加js，目前仅静态 -->
+</body>
+</html>

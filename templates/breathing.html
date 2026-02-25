@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情绪调节器 - 呼吸引导</title>
+    <link rel="stylesheet" href="../static/css/breathing.css">
+    <!-- 队友的样式（直接从 guanhuai.html 提取） -->
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="./guanhuai.html">← 返回首页</a>
+        </nav>
+
+        <h2>🌬️ 情绪调节器 - 呼吸引导</h2>
+        <p class="block-desc">跟随以下节奏深呼吸，快速平复焦虑情绪：</p>
+
+        <!-- 呼吸动画球 -->
+        <div class="breath-container">
+            <div class="breath-ball" id="breathBall"></div>
+            <div class="breath-text" id="breathText">准备</div>
+        </div>
+
+        <!-- 倒计时数字 -->
+        <div class="timer" id="timerDisplay">--</div>
+
+        <!-- 阶段指示器（吸-屏-呼-休息） -->
+        <div class="phase-indicator">
+            <div class="phase-item" data-phase="inhale">吸气</div>
+            <div class="phase-item" data-phase="hold">屏息</div>
+            <div class="phase-item" data-phase="exhale">呼气</div>
+            <div class="phase-item" data-phase="rest">休息</div>
+        </div>
+
+        <!-- 呼吸节奏说明（队友UI风格） -->
+        <ul class="phase-list">
+            <li><span class="phase-name">吸气</span> <span class="phase-duration">4 秒</span></li>
+            <li><span class="phase-name">屏息</span> <span class="phase-duration">4 秒</span></li>
+            <li><span class="phase-name">呼气</span> <span class="phase-duration">6 秒</span></li>
+            <li><span class="phase-name">休息</span> <span class="phase-duration">2 秒</span></li>
+        </ul>
+
+        <!-- 控制按钮 -->
+        <div class="controls">
+            <button id="startBtn" class="btn btn-primary">开始引导</button>
+            <button id="pauseBtn" class="btn btn-secondary" disabled>暂停</button>
+            <button id="resetBtn" class="btn btn-secondary">重置</button>
+        </div>
+
+        <!-- 语音控制 -->
+        <div class="voice-control">
+            <label>
+                <input type="checkbox" id="voiceToggle" checked> 启用语音引导
+            </label>
+            <label>
+                语速 <input type="range" id="rateSlider" min="0.5" max="2" step="0.1" value="1">
+                <span id="rateValue">1.0</span>
+            </label>
+        </div>
+
+        <!-- 引导词显示区域 -->
+        <div class="guide-text" id="guideText">
+            点击“开始引导”，跟随动画和语音进行呼吸练习。
+        </div>
+    </div>
+
+    <script src="../static/js/breathing.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>心理健康知识</title>
+    <link rel="stylesheet" href="../static/css/all.css">
+    <link rel="stylesheet" href="../static/css/loginsignup.css">
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- 导航栏 (Header) 保持原样，与guanhuai.html一致 -->
+    <header>
+        <!-- 将 max-w-8xl 改为 max-w-7xl (tailwind 常用最大宽度) 保证一致性，并保留 mx-auto 居中 -->
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="feback">
+                <img src="../static/images/xinyuqingchuang.jpg" class="h-7" alt="logo">
+                <h1 class="text-2xl font-bold text-teal-600">心语晴窗</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="./index.html" class="hover:text-teal-600 transition duration-300">ai对话</a>
+                <a href="./guanhuai.html" class="hover:text-teal-600 transition duration-300">心理关怀工具</a>
+                <!-- 当前页面高亮 -->
+                <a href="./tree.html" class="hover:text-teal-600 transition duration-300">匿名树洞</a>
+                <a href="./knowledge.html" class="text-teal-600 font-semibold transition duration-300">心理健康知识</a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <button class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105" id='loginBtn'>
+                    登录/注册
+                </button>
+                <span class="text-sm font-normal text-gray-500 border-l border-gray-300 pl-3">建议与反馈</span>
+            </div>
+        </div>
+    </header>
+    <!--登录模拟框-->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeLogin">&times;</span>
+            <h2>登录</h2>
+            <form id="loginForm">
+                <label for="loginUsername">账号</label>
+                <input type="text" id="loginUsername" name="username" placeholder="请输入账号" required>
+
+                <label for="loginPassword">密码</label>
+                <input type="password" id="loginPassword" name="password" placeholder="请输入密码" required>
+
+                <div class="button-group">
+                    <button type="button" class="login-btn" id="modalLoginBtn">登录</button>
+                    <button type="button" class="register-btn" id="modalRegisterBtn">注册</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!--注册模拟框-->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeRegister">&times;</span>
+            <h2>注册</h2>
+            <form id="registerForm">
+                <!-- 用户名 -->
+                <label for="regUsername">用户名</label>
+                <input type="text" id="regUsername" name="username" placeholder="请输入用户名" required>
+                <div class="input-hint">2~10个字母</div>
+
+                <!-- 密码 -->
+                <label for="regPassword">密码</label>
+                <input type="password" id="regPassword" name="password" placeholder="请输入密码" required>
+                <div class="input-hint">6~16位英文或数字</div>
+
+                <!-- 确认密码 -->
+                <label for="regConfirmPassword">确认密码</label>
+                <input type="password" id="regConfirmPassword" name="confirmPassword" placeholder="请再次输入密码" required>
+
+                <!-- 按钮组 -->
+                <div class="button-group">
+                    <button type="button" class="register-btn" id="modalRegisterConfirmBtn">注册</button>
+                </div>
+
+                <!-- 返回登录链接 -->
+                <div class="back-link">
+                    <a id="backToLogin">← 返回登录</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../static/js/loginsignup.js"></script>
+
+
+    <!-- 心理健康知识卡片区域 (新增，完全复用guanhuai.html中的结构样式，仅内容替换为知识卡片) -->
+    <section id="knowledge-cards" class="toolbox">
+        <h3 class="toolh3">
+            心理健康知识
+        </h3>
+        <div class="toolcardbox">
+            <!-- 卡片1: 认识抑郁症 (蓝色主题) -->
+            <div class="toolcard border-t-4 border-blue-500">
+                <h4 class="text-2xl font-bold mb-2">认识抑郁症</h4>
+                <p class="text-gray-600">了解抑郁症的核心症状、成因及科学帮助途径，学习如何支持身边有抑郁情绪的人。</p>
+                <div class="card-btn" style="margin-top: auto; margin-bottom: 0;">
+                    <a href="#" class="inline-block bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition shadow-md">
+                    阅读全文
+                    </a>
+                </div>
+            </div>
+            <!-- 卡片2: 焦虑管理技巧 (黄色主题) -->
+            <div class="toolcard border-t-4 border-yellow-500">
+                <h4 class="text-2xl font-bold mb-2">焦虑管理技巧</h4>
+                <p class="text-gray-600">实用方法应对日常焦虑：呼吸练习、正念观察、焦虑想法重构，快速恢复平静。</p>
+                <div class="card-btn" style="margin-top: auto; margin-bottom: 0;">
+                    <a href="#" class="inline-block bg-yellow-500 text-white px-6 py-3 rounded-full hover:bg-yellow-600 transition shadow-md">
+                    阅读全文
+                    </a>
+                </div>
+            </div>
+            <!-- 卡片3: 正念冥想入门 (紫色主题) -->
+            <div class="toolcard border-t-4 border-purple-500">
+                <h4 class="text-2xl font-bold mb-2">正念冥想入门</h4>
+                <p class="text-gray-600">正念如何改变大脑应对压力？从基础呼吸观察开始，逐步建立每日冥想习惯。</p>
+                <div class="card-btn" style="margin-top: auto; margin-bottom: 0;">
+                    <a href="#" class="inline-block bg-purple-500 text-white px-6 py-3 rounded-full hover:bg-purple-600 transition shadow-md">
+                    阅读全文
+                    </a>
+                </div>
+            </div>
+            <!-- 卡片4: 健康自尊培养 (绿色主题) -->
+            <div class="toolcard border-t-4 border-green-500">
+                <h4 class="text-2xl font-bold mb-2">健康自尊培养</h4>
+                <p class="text-gray-600">打破消极思维循环：自我肯定练习、设立边界、接纳不完美，建立稳固的自我价值感。</p>
+                <div class="card-btn" style="margin-top: auto; margin-bottom: 0;">
+                    <a href="#" class="inline-block bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600 transition shadow-md">
+                    阅读全文
+                    </a>
+                </div>
+            </div>
+            <!-- 卡片5: 改善睡眠质量 (靛蓝主题) -->
+            <div class="toolcard border-t-4 border-indigo-500">
+                <h4 class="text-2xl font-bold mb-2">改善睡眠质量</h4>
+                <p class="text-gray-600">睡眠与情绪密不可分。获取科学睡眠建议、放松技巧，打破失眠与焦虑的恶性循环。</p>
+                <div class="card-btn" style="margin-top: auto; margin-bottom: 0;">
+                    <a href="#" class="inline-block bg-indigo-500 text-white px-6 py-3 rounded-full hover:bg-indigo-600 transition shadow-md">
+                    阅读全文
+                    </a>
+                </div>
+            </div>
+            <!-- 卡片6: 青少年心理指南 (红色主题) -->
+            <div class="toolcard border-t-4 border-red-500">
+                <h4 class="text-2xl font-bold mb-2">青少年心理指南</h4>
+                <p class="text-gray-600">识别青少年心理困扰的信号，与孩子有效沟通的方法，构建支持性家庭环境。</p>
+                <div class="card-btn" style="margin-top: auto; margin-bottom: 0;">
+                    <a href="#" class="inline-block bg-red-500 text-white px-6 py-3 rounded-full hover:bg-red-600 transition shadow-md">
+                    阅读全文
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
