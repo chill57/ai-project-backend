@@ -1,0 +1,98 @@
+:root {
+    --color-primary: #14b8a6; /* Teal 500 */
+    --color-secondary: #0f766e; /* Teal 700 */
+    --color-background: #f0fdfa; /* Teal 50 */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-background);
+}
+/*p-4 bg-white shadow-md sticky top-0 z-10*/
+header {
+    /* p-4: 上下左右内边距为 1rem（Tailwind 中 1 unit = 0.25rem，4 unit = 1rem = 16px） */
+    padding: 1rem;
+    /* bg-white: 背景色设置为纯白色（#ffffff） */
+    background-color: #ffffff;
+    /* shadow-md: Tailwind 预设的中等阴影效果，适配不同系统的柔和阴影 */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    /* sticky: 粘性定位，结合 top-0 使用，滚动时会固定在顶部 */
+    position: sticky;
+    /* top-0: 粘性定位的触发位置，元素顶部距离视口顶部 0px 时固定 */
+    top: 0px;
+    /* z-10: 设置 z-index 为 10，确保元素在其他元素上方显示（避免被遮挡） */
+    z-index: 10;
+}
+.feback {
+    margin-left: 0px;
+    display: flex;
+    align-items: center;
+}
+/*三核和工具集的盒子*/
+/* 对应 max-w-7xl mx-auto px-6 py-12 的原生 CSS */
+.toolbox {
+    /* max-w-7xl：最大宽度 80rem（1280px），Tailwind v3 官方预设值 */
+    max-width: 80rem; /* 等价于 1280px（1rem=16px），小屏下宽度自动占满 */
+    /* mx-auto：左右外边距自动，结合 max-width 实现水平居中 */
+    margin-left: auto;
+    margin-right: auto;
+    /* px-6：左右内边距 1.5rem（24px） */
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    /* py-12：上下内边距 3rem（48px） */
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+/*三核和工具集的 标题*/
+/*text-4xl font-bold text-center mb-12 text-teal-700*/
+.toolh3 {
+    font-size: 2.25rem; /* text-4xl (36px 若 1rem=16px) */
+    font-weight: 700; /* font-bold */
+    text-align: center; /* text-center */
+    margin-bottom: 3rem; /* mb-12 (48px) */
+    color: #0f766e; /* text-teal-700 */
+}
+/* 对应 grid md:grid-cols-3 gap-8 的原生 CSS */
+.toolcardbox {
+    /* grid：将元素转为 Grid 网格容器 */
+    display: grid;
+    /* gap-8：网格项的行、列间距均为 2rem（32px），Tailwind 中 8*0.25rem=2rem */
+    gap: 2rem; /* 等价于 row-gap: 2rem; column-gap: 2rem; */
+    /* 默认网格列数：1列（Grid 容器未设置 grid-template-columns 时，默认单列） */
+    grid-template-columns: 1fr;
+}
+/* 对应所有 Tailwind 基础样式 */
+.toolcard {
+    background-color: #ffffff;
+    /* p-8：全方向内边距 2rem（32px） */
+    padding: 2rem;
+    /* rounded-xl：四个角 0.75rem（12px）圆角 */
+    border-radius: 0.75rem;
+    /* shadow-lg：Tailwind 预设大号阴影（增强立体感） */
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    /* transition duration-500：所有可过渡属性的动画时长 500ms */
+    transition: all 500ms ease;
+    /* 补充：防止缩放时超出父容器（可选） */
+    transform-origin: center;
+    display: flex; /* 转为 Flex 容器 */
+    flex-direction: column; /* 子元素垂直排列 */
+    justify-content: space-between; /* 内容上下分布，按钮自动靠底 */
+    min-height: 280px; /* 可选：统一卡片高度，避免不同内容导致高度不一致 */
+    gap: 2rem; /* 子元素（标题/文本/按钮）之间默认间距 1rem，不挤文字 */
+}
+
+    /* hover 动效：shadow-xl + scale-[1.02] */
+    .toolcard:hover {
+        /* hover:shadow-xl：超大号阴影（比 shadow-lg 更明显） */
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        /* hover:scale-[1.02]：元素放大 2% */
+        transform: scale(1.02);
+    }
+
+/* md:grid-cols-3：屏幕 ≥ 768px 时，网格分为 3 列 */
+@media (min-width: 768px) {
+    .toolcardbox {
+        /* grid-cols-3：3 列等宽网格，1fr 表示“剩余空间等分” */
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
