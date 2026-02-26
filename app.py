@@ -187,7 +187,7 @@ def daka_page():
 
 @app.route('/knowledge')
 @app.route('/knowledge.html')
-def knowledge:
+def knowledge_page():
     return render_template('meditation.html')
 
 
