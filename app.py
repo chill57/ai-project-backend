@@ -90,6 +90,7 @@ def home():
 
 
 @app.route('/health')
+@app.route('/health.html')
 def health():
     return jsonify({"status": "ok"})
 
@@ -150,18 +151,45 @@ def record_assessment():
 
 
 @app.route('/breathing')
+@app.route('/breathing.html')
 def breathing_page():
     return render_template('breathing.html')
 
 
 @app.route('/assessment')
+@app.route('/assessment.html')
 def assessment_page():
     return render_template('assessment.html')
 
 
 @app.route('/meditation')
+@app.route('/meditation.html')
 def meditation_page():
     return render_template('meditation.html')
+
+
+@app.route('/tree')
+@app.route('/tree.html')
+def meditation_page():
+    return render_template('tree.html')
+
+@app.route('/home')
+@app.route('/home.html')
+def meditation_page():
+    return render_template('home.html')
+
+
+@app.route('/daka')
+@app.route('/daka.html')
+def meditation_page():
+    return render_template('daka.html')
+
+
+@app.route('/knowledge')
+@app.route('/knowledge.html')
+def meditation_page():
+    return render_template('meditation.html')
+
 
 
 if __name__ == '__main__':
