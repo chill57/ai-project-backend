@@ -84,8 +84,8 @@ with app.app_context():
         print("✅ 默认用户已创建")
 
 
-@app.route('/')
-def home():
+@app.route('/index.html')
+def index():
     return render_template('index.html')
 
 
@@ -170,24 +170,24 @@ def meditation_page():
 
 @app.route('/tree')
 @app.route('/tree.html')
-def meditation_page():
+def tree_page():
     return render_template('tree.html')
 
 @app.route('/home')
 @app.route('/home.html')
-def meditation_page():
+def home_page():
     return render_template('home.html')
 
 
 @app.route('/daka')
 @app.route('/daka.html')
-def meditation_page():
+def daka_page():
     return render_template('daka.html')
 
 
 @app.route('/knowledge')
 @app.route('/knowledge.html')
-def meditation_page():
+def knowledge:
     return render_template('meditation.html')
 
 
