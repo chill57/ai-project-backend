@@ -198,6 +198,13 @@ def knowledge_page():
     return render_template('guanhuai.html')
 
 
+print("=" * 50)
+print("Registered routes:")
+for rule in app.url_map.iter_rules():
+    print(rule)
+print("=" * 50)
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
