@@ -85,13 +85,14 @@ with app.app_context():
 
 
 @app.route('/index.html')
+@app.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/health')
-@app.route('/health.html')
-def health():
+@app.route('/healthy')
+@app.route('/healthy.html')
+def healthy():
     return jsonify({"status": "ok"})
 
 
@@ -188,8 +189,13 @@ def daka_page():
 @app.route('/knowledge')
 @app.route('/knowledge.html')
 def knowledge_page():
-    return render_template('meditation.html')
+    return render_template('knowledge.html')
 
+
+@app.route('/guanhuai')
+@app.route('/guanhuai.html')
+def knowledge_page():
+    return render_template('guanhuai.html')
 
 
 if __name__ == '__main__':
