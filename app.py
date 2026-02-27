@@ -194,7 +194,7 @@ def knowledge_page():
 
 @app.route('/guanhuai')
 @app.route('/guanhuai.html')
-def knowledge_page():
+def guanhuai_page():
     return render_template('guanhuai.html')
 
 
